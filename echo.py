@@ -7,50 +7,37 @@ import argparse
 
 
 __author__ = "Patrick Buzzo"
-""" Helping Hand From: Piero and Kano """
+""" Helping Hand From: Piero, Derek, and Kano """
 
 
-def create_parser():
-    """Creates a parser for dotm searcher"""
+def create_parser(*args):
+    """Creates a parser for command arguments"""
     parser = argparse.ArgumentParser(
         description='Searches for text within all dotm files in a directory')
     parser.add_argument(
-        '-u', help='directory to search for dotm files')
+        '-u', "--upper", action="store_true", help='return upper-cased version')
     parser.add_argument(
-        '-l', help='directory to search for dotm files')
-    parser.add_argument("-h", "--help", help='Help: Information on Usage')
+        '-l', "--lower", action="store_true", help='return lower-cased version')
     parser.add_argument(
-        "-u", "--upper", help='Find The Upper-Cased Version Of Input')
-    parser.add_argument(
-        "-l", "--lower", help='Find The Lower-Cased Version Of Input')
-    parser.add_argument(
-        "-t", "--title", help='Find The Capitalized (Title) Version Of Input')
-    parser.add_argument('-t', help='text to search within each dotm file')
+        '-t', "--title", action="store_true", help='return title-cased version')
+    parser.add_argument('target', help="String to Change")
     return parser
 
 
-def main(args):
-    # parser = create_parser()
-    # namespace = parser.parse_args(args)
-
-    # return transformed_text
-    pass
-    # parser = create_parser()
-    # # Run the parser to collect command-line arguments
-    # # into a NAMESPACE called 'ns'
-    # ns = parser.parse_args(args)
-
-    # if not ns:
-    #     parser.print_usage()
-    #     sys.exit(1)
-
-    # file_list = ns.files
-
-    # # option flag
-    # create_summary = ns.summaryfile
-
-    # if create_summary:
-    #     if file_list[0] == 'hello':
+def main(items):
+    parser = create_parser()
+    args = parser.parse_args(items)
+    changed_str = args.target
+    # check lower-cased
+    if args.lower:
+        changed_str = changed_str.lower()
+    # check upper-cased
+    if args.upper:
+        changed_str = changed_str.upper()
+    # check title-cased
+    if args.title:
+        changed_str = changed_str.title()
+    return changed_str
 
 
 if __name__ == "__main__":

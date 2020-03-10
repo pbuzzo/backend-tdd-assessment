@@ -1,9 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import unittest
 import echo
+import unittest
 import subprocess
+import os
+import sys
+
+# https://stackoverflow.com/questions/24722212/
+# python-cant-find-module-in-the-same-folder
+file_dir = os.path.dirname('./echo.py')
+sys.path.append(file_dir)
 
 
 class TestEcho(unittest.TestCase):
@@ -36,59 +43,48 @@ class TestEcho(unittest.TestCase):
         self.assertEquals(stdout, usage)
 
     # Upper Test
+
     def test_upper_small(self):
-        args = ["hello", "-u"]
+        args = ["hello world", "-u"]
         namespace = self.parser.parse_args(args)
         self.assertTrue(namespace.upper)
-        self.assertEquals(echo.main(args), "HELLO")
+        self.assertEquals(echo.main(args), "HELLO WORLD")
 
     def test_upper_big(self):
-        args = ["hello", "--upper"]
+        args = ["hello world", "--upper"]
         namespace = self.parser.parse_args(args)
         self.assertTrue(namespace.upper)
-        self.assertEquals(echo.main(args), "HELLO")
+        self.assertEquals(echo.main(args), "HELLO WORLD")
 
     # Lower Test
     def test_lower_small(self):
-        args = ["hello", "-l"]
+        args = ["hello world", "-l"]
         namespace = self.parser.parse_args(args)
         self.assertTrue(namespace.lower)
-        self.assertEquals(echo.main(args), "hello")
+        self.assertEquals(echo.main(args), "hello world")
 
     def test_lower_big(self):
-        args = ["hello", "--lower"]
+        args = ["hello world", "--lower"]
         namespace = self.parser.parse_args(args)
         self.assertTrue(namespace.lower)
-        self.assertEquals(echo.main(args), "hello")
+        self.assertEquals(echo.main(args), "hello world")
 
     # Title Test
     def test_title_small(self):
-        args = ["hello", "-t"]
+        args = ["hello world", "-t"]
         namespace = self.parser.parse_args(args)
-        self.assertTrue(namespace.capitalize)
-        self.assertEquals(echo.main(args), "Hello")
+        self.assertEquals(echo.main(args), "Hello World")
 
     def test_title_big(self):
-        args = ["hello", "--title"]
+        args = ["hello world", "--title"]
         namespace = self.parser.parse_args(args)
-        self.assertTrue(namespace.capitalize)
-        self.assertEquals(echo.main(args), "Hello")
+        self.assertEquals(echo.main(args), "Hello World")
 
     # Multi-Args Test
     def test_three_small(self):
-        args = ["hello", "-tul"]
+        args = ["hello world", "-tul"]
         namespace = self.parser.parse_args(args)
-        pass
-
-    def test_two_small(self):
-        args = ["hello", "-ul"]
-        namespace = self.parser.parse_args(args)
-        pass
-
-    # Test tearDown()
-    def tearDown(self):
-        self.parser.tearDown()
-        self.parser = None
+        self.assertEquals(echo.main(args), "Hello World")
 
 
 if __name__ == '__main__':
